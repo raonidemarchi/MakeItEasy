@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Signin from '../Signin';
-import Boards from '../Boards';
-import BoardDetails from '../BoardDetails';
+import Signin from '../components/Signin';
+import Boards from '../components/Boards';
+import BoardDetails from '../components/BoardDetails';
 
 const AppNavigator = createStackNavigator(
   {
@@ -10,6 +10,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: {
         header: null,
       },
+      portraitOnlyMode: true,
     },
     Boards: {
       screen: Boards,
@@ -19,7 +20,7 @@ const AppNavigator = createStackNavigator(
     },
     BoardDetails: {
       screen: BoardDetails,
-    }
+    },
   },
   {
     initialRouteName: 'Signin',
