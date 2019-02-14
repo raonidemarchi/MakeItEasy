@@ -21,6 +21,15 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 
+  description: {
+    color: '#757575',
+    fontSize: 18,
+    fontFamily: 'Nunito-Regular',
+    marginTop: 10,
+    width: '70%',
+    textAlign: 'center',
+  },
+
   inputContainer: {
     width: '100%',
     alignItems: 'center',
@@ -34,27 +43,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  submit: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  submitContainer: {
     width: '85%',
+    alignItems: 'flex-end',
+  },
+
+  submit: {
+    alignItems: 'flex-end',
+    width: 140,
     marginTop: 28,
     borderRadius: 40,
-    height: 62,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   submitTouchable: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
-    width: '100%',
-    height: 62,
+    height: 48,
   },
 
   submitText: {
     fontSize: 22,
     fontFamily: 'Nunito-SemiBold',
     color: '#fff',
+    lineHeight: 29,
   },
 
   inner: {

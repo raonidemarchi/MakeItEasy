@@ -1,6 +1,7 @@
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import AuthLoading from '../components/AuthLoading';
-import SignIn from '../components/Signin';
+import SignInFluig from '../components/SignInFluig';
+import SignIn from '../components/SignIn';
 import Boards from '../components/Boards';
 import BoardDetails from '../components/BoardDetails';
 
@@ -12,9 +13,16 @@ const SignedOutNavigator = createStackNavigator(
         header: null,
       },
     },
+
+    SignInFluig: {
+      screen: SignInFluig,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
   {
-    initialRouteName: 'SignIn',
+    initialRouteName: 'SignInFluig'
   },
 );
 
@@ -26,6 +34,7 @@ const SignedInNavigator = createStackNavigator(
         header: null,
       },
     },
+    
     BoardDetails: {
       screen: BoardDetails,
     },
@@ -42,6 +51,6 @@ export default createAppContainer(createSwitchNavigator(
     Auth: AuthLoading,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName: 'SignedOut',
   }
 ));
