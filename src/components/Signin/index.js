@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, Text, StatusBar, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
-import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
+import tryToAuthenticate from '../../api/signin';
+import styles from './styles';
 import makeItEasyLogo from '../../assets/make_it_easy_logo.png';
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  StatusBar,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Alert
+} from 'react-native';
+
 
 class Signin extends Component {
   constructor(props) {
@@ -13,42 +25,28 @@ class Signin extends Component {
       password: '',
       emailFocused: false,
       passwordFocused: false,
-      validatingLoginData: false,
+      validateSigninData: false,
     };
   }
 
-  validateLoginData() {
+  async validateSigninData() {
     const { email, password } = this.state;
-    this.setState({ validatingLoginData: true });
+    let responseJson = {};
 
-    fetch('https://apimakeiteasy.iv2.com.br/api/v6/loginRoutes/signin', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        pass: password,
-      }),
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({ validatingLoginData: false });
+    this.setState({ validateSigninData: true });
 
-      if (responseJson) {
-        if (!responseJson.error && responseJson.data) {
-          Alert.alert(responseJson.data.companyName, responseJson.data.hostname);
-          return true;
-        }
+    responseJson = await tryToAuthenticate(email, password);
 
-        Alert.alert('Usuário ou senha inválida', 'Os dados informados não foram encontrados na base de dados do Make it Easy.');
+    this.setState({ validateSigninData: false });
+
+    if (responseJson) {
+      if (!responseJson.error && responseJson.data) {
+        Alert.alert(responseJson.data.companyName, responseJson.data.hostname);
+        return true;
       }
-    })
-    .catch((error) => {
-      this.setState({ validatingLoginData: false });
-      console.error(error);
-    });
+
+      Alert.alert('Usuário ou senha inválida', 'Os dados informados não foram encontrados na base de dados do Make it Easy.');
+    }
   }
 
   changeState(stateName, value) {
@@ -56,13 +54,13 @@ class Signin extends Component {
   }
 
   render() {
-    const { emailFocused, passwordFocused, validatingLoginData } = this.state;
+    const { emailFocused, passwordFocused, validateSigninData } = this.state;
     const selectionColor = '#b39ddb';
-    const inputTextColor = '#d3d3d3';
+    const inputTextColor = '#bdbdbd';
     const inputTextColorActive = '#673AB7';
 
     return (
-      <View style={styles.view}>
+      <KeyboardAvoidingView style={styles.container} enabled>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
         <Image
@@ -70,11 +68,12 @@ class Signin extends Component {
           source={makeItEasyLogo}
         />
 
-        <Text style={styles.title}>Fazer login</Text>
+        <Text style={styles.title}>Faça login no Make it Easy</Text>
 
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
+            autoFocus={true}
             autoComplete="email"
             textContentType="emailAddress"
             keyboardType="email-address"
@@ -86,7 +85,7 @@ class Signin extends Component {
             onChangeText={(text) => this.changeState('email', text)}
             onSubmitEditing={() => this.secondTextInput.focus()}
             selectionColor={selectionColor}
-            editable={!validatingLoginData}
+            editable={!validateSigninData}
             autoCapitalize="none"
             returnKeyType="next"
           />
@@ -102,9 +101,9 @@ class Signin extends Component {
             onFocus={() => this.changeState('passwordFocused', true)}
             onBlur={() => this.changeState('passwordFocused', false)}
             onChangeText={(text) => this.changeState('password', text)}
-            onSubmitEditing={() => this.validateLoginData()}
+            onSubmitEditing={() => this.validateSigninData()}
             selectionColor={selectionColor}
-            editable={!validatingLoginData}
+            editable={!validateSigninData}
             autoCapitalize="none"
             returnKeyType="go"
             selectTextOnFocus={true}
@@ -113,15 +112,15 @@ class Signin extends Component {
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 1}}
-            colors={(!validatingLoginData) ? ['#40C4FF', '#673AB7'] : ['#eceff1', '#b0bec5']}
+            colors={(!validateSigninData) ? ['#40C4FF', '#673AB7'] : ['#eceff1', '#b0bec5']}
             style={styles.submit}
-            elevation={(!validatingLoginData) ? 1 : 0}
+            elevation={(!validateSigninData) ? 1 : 0}
           >
             {
-              (!validatingLoginData) ? (
+              (!validateSigninData) ? (
                 <TouchableOpacity
                   style={styles.submitTouchable}
-                  onPress={() => this.validateLoginData()}
+                  onPress={() => this.validateSigninData()}
                 >
                   <Text style={styles.submitText}>
                     Login
@@ -133,7 +132,9 @@ class Signin extends Component {
             }
           </LinearGradient>
         </View>
-      </View>
+
+        <View style={styles.inner} />
+      </KeyboardAvoidingView>
     );
   }
 }

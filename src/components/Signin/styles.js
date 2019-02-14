@@ -1,36 +1,37 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: 'center',
+  container: {
     alignItems: 'center',
+    paddingVertical: 20,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 
   image: {
-    width: 120,
-    height: 120,
+    width: 80,
+    height: 80,
     resizeMode: 'contain'
   },
 
   title: {
     color: '#333',
-    fontSize: 30,
-    fontFamily: 'Nunito-SemiBold',
+    fontSize: 24,
+    fontFamily: 'Nunito-Regular',
+    marginTop: 24,
   },
 
   inputContainer: {
     width: '100%',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 6,
   },
 
   input: {
-    height: 82,
+    height: 78,
     width: '85%',
     paddingHorizontal: 8,
-    fontSize: 20,
-    backgroundColor: "#fff",
+    fontSize: 16,
   },
 
   submit: {
@@ -54,6 +55,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'Nunito-SemiBold',
     color: '#fff',
+  },
+
+  inner: {
+    flex: 1
   },
 });
 
