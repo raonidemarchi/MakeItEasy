@@ -38,9 +38,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '85%',
     marginTop: 28,
+    borderRadius: 40,
     height: 62,
+  },
+
+  submitTouchable: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
-    borderRadius: 12,
+    width: '100%',
+    height: 62,
   },
 
   submitText: {
