@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import checkConnection from '../../api/fluigServices';
+import checkConnection from '../../api/FluigServices';
 import styles from './styles';
 import makeItEasyLogo from '../../assets/make_it_easy_logo.png';
 import {

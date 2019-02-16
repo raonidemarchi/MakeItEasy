@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import tryToAuthenticate from '../../api/signIn';
+import tryToAuthenticate from '../../api/SignIn';
 import styles from './styles';
 import makeItEasyLogo from '../../assets/make_it_easy_logo.png';
 import {
