@@ -12,91 +12,97 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Alert,
-  AsyncStorage,
 } from 'react-native';
 
 
 class SignInFluig extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      fluigAddress: '',
-      fluigAddressFocused: false,
+      fluigUrl: 'https://',
+      fluigUrlFocused: false,
       validatingFluigUrl: false,
+      connectionErrorMessage: false,
     };
   }
 
   async validateFluigUrl() {
-    let connectionSucceeds = {};
-    const { fluigAddress } = this.state;
+    const { fluigUrl } = this.state;
+    let connectionResponse = {};
+    let fluigUrlFormated = fluigUrl;
 
+    // loading
     this.setState({ validatingFluigUrl: true });
 
-    connectionSucceeds = await checkConnection(fluigAddress);
+    if (fluigUrl.substring(0, 7) !== 'http://' && fluigUrl.substring(0, 8) !== 'https://') {
+      fluigUrlFormated = `https://${fluigUrl}`;
+    }
 
+    if (fluigUrl.substring(-1) === '/') {
+      fluigUrlFormated = fluigUrl.slice(0, -1);
+    }
+
+    connectionResponse = await checkConnection(fluigUrlFormated);
+
+    // loading completed
     this.setState({ validatingFluigUrl: false });
 
-    if (connectionSucceeds) {
-      this.props.navigation.navigate('SignIn');
+    if (connectionResponse.status === 200) {
+      this.props.navigation.navigate('SignIn', { fluigUrl: fluigUrlFormated });
       return;
     }
 
-    Alert.alert('não foi')
+    this.setState({ connectionErrorMessage: 'Não encontramos o fluig nesse endereço' });
   }
 
-  // async _storeUserData(userData) {
-  //   // try {
-  //   //   await AsyncStorage.setItem('userToken', userData.token);
-  //   // } catch(error) {
-  //   //   Alert.alert('Erro ao salvar dados de login', error);
-  //   // }
+  changeFluigUrlState(value) {
+    this.setState({ fluigUrl: value });
+  }
 
-  //   // companyName: "Grupo iv2"
-  //   // email: "raonidemarchi@gmail.com"
-  //   // hostname: "devfluiglocal-iv2-com-br"
-  //   // token: "R3J1cG8gaXYyZGV2Zmx1aWdsb2NhbC5pdjIuY29tLmJy"
-  //   // version: "1.1.5"
-  //   // _id: "5c5dcf60c1a50d089ef08903"
-  // }
+  resetConnectionErrorMessage() {
+    this.setState({ connectionErrorMessage: false });
+  }
 
-  changeState(stateName, value) {
-    this.setState({ [stateName]: value });
+  toggleFocusFluigInput(boolean) {
+    this.setState({ fluigUrlFocused: boolean });
   }
 
   render() {
-    const { fluigAddressFocused, validatingFluigUrl } = this.state;
-    const selectionColor = '#b39ddb';
-    const inputTextColor = '#bdbdbd';
-    const inputTextColorActive = '#673AB7';
+    const { fluigUrlFocused, validatingFluigUrl, connectionErrorMessage } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.container} enabled>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
         <Image style={styles.image} source={makeItEasyLogo} />
-
         <Text style={styles.title}>Bem vindo ao Make it Easy</Text>
-        <Text style={styles.description}>Para começar, vamos conectar com seu fluig.</Text>
+        <Text style={styles.description}>Para começar, informe o endereço do seu fluig.</Text>
 
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             autoFocus={true}
+            defaultValue='https://'
             textContentType="URL"
             placeholder="Endereço do seu fluig"
-            placeholderTextColor={inputTextColor}
-            underlineColorAndroid={fluigAddressFocused ? inputTextColorActive : inputTextColor}
-            onFocus={() => this.changeState('fluigAddressFocused', true)}
-            onBlur={() => this.changeState('fluigAddressFocused', false)}
-            onChangeText={(text) => this.changeState('fluigAddress', text)}
+            placeholderTextColor={styles.inputTextColor.color}
+            underlineColorAndroid={!connectionErrorMessage ? (
+              fluigUrlFocused ? styles.inputTextColorActive.color : styles.inputTextColor.color
+            ) : (
+              styles.errorMessage.color
+            )}
+            onFocus={() => this.toggleFocusFluigInput(true)}
+            onBlur={() => this.toggleFocusFluigInput(false)}
+            onChangeText={(text) => [this.changeFluigUrlState(text), this.resetConnectionErrorMessage()]}
             onSubmitEditing={() => this.validateFluigUrl()}
-            selectionColor={selectionColor}
+            selectionColor={styles.selectionColor.color}
             editable={!validatingFluigUrl}
             autoCapitalize="none"
             returnKeyType="go"
           />
+
+          <Text style={styles.errorMessage}>{connectionErrorMessage}</Text>
 
           <View style={styles.submitContainer}>
             <LinearGradient

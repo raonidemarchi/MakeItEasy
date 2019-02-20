@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import tryToAuthenticate from '../../api/SignIn';
 import styles from './styles';
-import makeItEasyLogo from '../../assets/make_it_easy_logo.png';
 import {
   ActivityIndicator,
   View,
   Text,
   StatusBar,
   TextInput,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
@@ -20,13 +18,16 @@ import {
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       email: '',
       password: '',
       emailFocused: false,
       passwordFocused: false,
       validatingSignInData: false,
+
+      // props
+      fluigUrl: 'https://fluig.iv2.com.br' // props.navigation.state.params && props.navigation.state.params.fluigUrl,
     };
   }
 
@@ -50,27 +51,27 @@ class SignIn extends Component {
     }
   }
 
-  // async _storeUserData(userData) {
-  //   // try {
-  //   //   await AsyncStorage.setItem('userToken', userData.token);
-  //   // } catch(error) {
-  //   //   Alert.alert('Erro ao salvar dados de login', error);
-  //   // }
+  async _storeUserData(userData) {
+    try {
+      await AsyncStorage.setItem('userToken', userData.token);
+    } catch(error) {
+      Alert.alert('Erro ao salvar dados de login', error);
+    }
 
-  //   // companyName: "Grupo iv2"
-  //   // email: "raonidemarchi@gmail.com"
-  //   // hostname: "devfluiglocal-iv2-com-br"
-  //   // token: "R3J1cG8gaXYyZGV2Zmx1aWdsb2NhbC5pdjIuY29tLmJy"
-  //   // version: "1.1.5"
-  //   // _id: "5c5dcf60c1a50d089ef08903"
-  // }
+    // companyName: "Grupo iv2"
+    // email: "raonidemarchi@gmail.com"
+    // hostname: "devfluiglocal-iv2-com-br"
+    // token: "R3J1cG8gaXYyZGV2Zmx1aWdsb2NhbC5pdjIuY29tLmJy"
+    // version: "1.1.5"
+    // _id: "5c5dcf60c1a50d089ef08903"
+  }
 
   changeState(stateName, value) {
     this.setState({ [stateName]: value });
   }
 
   render() {
-    const { emailFocused, passwordFocused, validatingSignInData } = this.state;
+    const { emailFocused, passwordFocused, validatingSignInData, fluigUrl } = this.state;
     const selectionColor = '#b39ddb';
     const inputTextColor = '#bdbdbd';
     const inputTextColorActive = '#673AB7';
@@ -79,9 +80,10 @@ class SignIn extends Component {
       <KeyboardAvoidingView style={styles.container} enabled>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
 
-        <Image style={styles.image} source={makeItEasyLogo} />
-
-        <Text style={styles.title}>Só mais um passo...</Text>
+        <Text style={styles.title}>
+          Agora, informe seu login e senha para se conectar em
+          <Text style={styles.url}> {fluigUrl}</Text>
+        </Text>
 
         <View style={styles.inputContainer}>
           <TextInput

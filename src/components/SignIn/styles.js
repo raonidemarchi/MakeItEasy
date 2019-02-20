@@ -6,19 +6,19 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     flex: 1,
     justifyContent: 'flex-end',
-  },
-
-  image: {
-    width: 80,
-    height: 80,
-    resizeMode: 'contain'
+    paddingHorizontal: '5%',
   },
 
   title: {
-    color: '#333',
-    fontSize: 24,
+    color: '#757575',
+    fontSize: 18,
     fontFamily: 'Nunito-Regular',
-    marginTop: 24,
+    textAlign: 'center',
+  },
+
+  url: {
+    color: '#333',
+    fontFamily: 'Nunito-Bold',
   },
 
   inputContainer: {
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   },
 
   input: {
+    width: '100%',
     height: 78,
-    width: '85%',
     paddingHorizontal: 8,
     fontSize: 16,
   },
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   submit: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '85%',
+    width: '100%',
     marginTop: 28,
     borderRadius: 40,
     height: 62,
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'Nunito-SemiBold',
     color: '#fff',
+    lineHeight: 29,
   },
 
   inner: {

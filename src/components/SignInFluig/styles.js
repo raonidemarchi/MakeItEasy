@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     flex: 1,
     justifyContent: 'flex-end',
+    paddingHorizontal: '5%',
   },
 
   image: {
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Nunito-Regular',
     marginTop: 24,
+    width: '90%',
   },
 
   description: {
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Nunito-Regular',
     marginTop: 10,
-    width: '70%',
+    width: '90%',
     textAlign: 'center',
   },
 
@@ -37,23 +39,22 @@ const styles = StyleSheet.create({
   },
 
   input: {
+    width: '100%',
     height: 78,
-    width: '85%',
     paddingHorizontal: 8,
     fontSize: 16,
   },
 
   submitContainer: {
-    width: '85%',
-    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
   },
 
   submit: {
     alignItems: 'flex-end',
     width: 140,
-    marginTop: 28,
+    marginTop: 18,
     borderRadius: 40,
-    height: 48,
+    height: 42,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -61,8 +62,8 @@ const styles = StyleSheet.create({
   submitTouchable: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    height: 48,
+    height: 42,
+    width: '100%',
   },
 
   submitText: {
@@ -75,6 +76,25 @@ const styles = StyleSheet.create({
   inner: {
     flex: 1,
   },
+
+  errorMessage: {
+    color: '#f44336',
+    alignSelf: 'flex-start',
+    marginLeft: 4,
+    fontFamily: 'Nunito-Bold',
+  },
+
+  inputTextColor: {
+    color: '#bdbdbd',
+  },
+
+  inputTextColorActive: {
+    color: '#673ab7',
+  },
+
+  selectionColor: {
+    color: '#b39ddb',
+  }
 });
 
 export default styles;
